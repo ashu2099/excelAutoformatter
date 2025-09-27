@@ -1,0 +1,17 @@
+{
+  "name": "excel-column-processor",
+  "version": "1.0.0",
+  "description": "Script to reorder and format specific columns from a CSV file into a new XLSX file.",
+  "main": "process_excel.js",
+  "scripts": {
+    "bajaj": "node src/transformBajaj.mjs",
+    "godigit": "node src/transformGodigit.mjs"
+  },
+  "dependencies": {
+    "exceljs": "^4.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.36.0",
+    "globals": "^16.4.0"
+  }
+}
