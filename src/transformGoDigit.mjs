@@ -11,7 +11,7 @@ import { BRANDS } from "./constants.mjs";
 // Value: The EXACT column name found in the INPUT file (from INPUT_COLUMNS).
 // If the input column name changes in the future, only the Value needs updating here.
 
-const MonthFrag = "Aug25";
+const MonthFrag = "Sep25";
 
 const COLUMN_MAPPING = {
   // Basic Policy/ID Fields
@@ -28,9 +28,9 @@ const COLUMN_MAPPING = {
   "OD Prem": "od_premium",
   "TP Prem": "tp_premium", // Matches 'tp_premium' (correcting the typo 'premiu')
   "Net Prem": "net_premium_coll",
-  "IRDA AMT": `IRDA_AMT_${MonthFrag}`,
-  "REWARD AMT": `REWARD_AMT_${MonthFrag}`,
-  "TOTAL AMT": `TOTAL_AMT_${MonthFrag}`,
+  "IRDA AMT": `IRDA_AMT`,
+  "REWARD AMT": `REWARD_AMT`,
+  "TOTAL AMT": `TOTAL_AMT`,
 };
 
 // 2. OUTPUT COLUMN DEFINITION (Defines order and properties)
@@ -38,7 +38,6 @@ const OUTPUT_COLUMNS_SPEC = [
   // This is the new, first column
   {
     header: "srno",
-    key: "srno",
     width: 5,
     style: {
       alignment: {
@@ -49,7 +48,6 @@ const OUTPUT_COLUMNS_SPEC = [
   // The remaining columns are defined strictly in the desired order
   {
     header: "Policy Num",
-    key: "Policy Num",
     width: 12,
     style: {
       alignment: {
@@ -60,7 +58,6 @@ const OUTPUT_COLUMNS_SPEC = [
   { header: "Customer Name", key: "Customer Name", width: 30 },
   {
     header: "Veh Num",
-    key: "Veh Num",
     width: 15,
     style: {
       alignment: {
@@ -70,7 +67,6 @@ const OUTPUT_COLUMNS_SPEC = [
   },
   {
     header: "Expiry Dt",
-    key: "Expiry Dt",
     width: 10,
     style: {
       numFmt: "dd-mmm-yy",
@@ -81,7 +77,6 @@ const OUTPUT_COLUMNS_SPEC = [
   },
   {
     header: "Issue Dt",
-    key: "Issue Dt",
     width: 10,
     style: {
       numFmt: "dd-mmm-yy",
@@ -92,7 +87,6 @@ const OUTPUT_COLUMNS_SPEC = [
   },
   {
     header: "Inception Dt",
-    key: "Inception Dt",
     width: 10,
     style: {
       numFmt: "dd-mmm-yy",
@@ -101,12 +95,12 @@ const OUTPUT_COLUMNS_SPEC = [
       },
     },
   },
-  { header: "OD Prem", key: "OD Prem", width: 8 },
-  { header: "TP Prem", key: "TP Prem", width: 8 },
-  { header: "Net Prem", key: "Net Prem", width: 8 },
-  { header: "IRDA AMT", key: "IRDA AMT", width: 8 },
-  { header: "REWARD AMT", key: "REWARD AMT", width: 8 },
-  { header: "TOTAL AMT", key: "TOTAL AMT", width: 8 },
+  { header: "OD Prem", width: 8 },
+  { header: "TP Prem", width: 8 },
+  { header: "Net Prem", width: 8 },
+  { header: "IRDA AMT", width: 8 },
+  { header: "REWARD AMT", width: 8 },
+  { header: "TOTAL AMT", width: 8 },
 ];
 
 /**
@@ -139,7 +133,7 @@ const transformGoDigit = async () => {
     sortedProcessedData.map((row) => {
       // Map the object properties back to an array in the correct order for ExcelJS
       // using the order defined in OUTPUT_COLUMNS_SPEC
-      return OUTPUT_COLUMNS_SPEC.map((col) => row[col.key]);
+      return OUTPUT_COLUMNS_SPEC.map((col) => row[col.header]);
     })
   );
 
