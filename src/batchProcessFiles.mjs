@@ -1,5 +1,6 @@
 import { buildBajaj } from "./builders/buildBajaj.mjs";
 import { buildGoDigit } from "./builders/buildGoDigit.mjs";
+import { buildMagma } from "./builders/buildMagma.mjs";
 import { buildSriRam } from "./builders/buildSriRam.mjs";
 import { getMultipleInputFiles } from "./getMultipleInputFiles.mjs";
 
@@ -37,6 +38,13 @@ export const batchProcessFiles = async () => {
         console.log("building -", lowerCaseName);
 
         await buildSriRam(fileInfo);
+        break;
+      }
+
+      case lowerCaseName.includes("magma"): {
+        console.log("building -", lowerCaseName);
+
+        await buildMagma(fileInfo);
         break;
       }
 

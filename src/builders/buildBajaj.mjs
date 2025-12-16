@@ -12,6 +12,7 @@ import { performTransform } from "../sheetFunctions/performTransform.mjs";
 import { addSummationRow } from "../sheetFunctions/addSummationRow.mjs";
 import { applyBorder } from "../sheetFunctions/applyBorder.mjs";
 import { markGrayCells } from "../sheetFunctions/markGrayCells.mjs";
+import { setupColumnsWithOffset } from "../sheetFunctions/setupColumnsWithOffset.mjs";
 
 /**
  * Main function to read, process, and write the Excel file based on strict mapping.
@@ -27,7 +28,7 @@ export const buildBajaj = async (fileInfo) => {
   const outputWorkbook = new ExcelJS.Workbook();
   const outputWorksheet = outputWorkbook.addWorksheet("AutoFormatted Report");
 
-  outputWorksheet, BAJAJ_COLUMNS_SPEC, 4;
+  setupColumnsWithOffset(outputWorksheet, BAJAJ_COLUMNS_SPEC, 4);
 
   const sortedProcessedData = sortAlphabetically(
     processedData,

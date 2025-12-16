@@ -14,6 +14,10 @@ export const getEndingRow = (rowCount, brand) => {
       return rowCount - 2;
     }
 
+    case BRANDS.MAGMA: {
+      return rowCount;
+    }
+
     default: {
       break;
     }
