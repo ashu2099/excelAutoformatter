@@ -3,8 +3,9 @@ import { sortAlphabetically } from "./sortUtils.mjs";
 import { applyBorder } from "./applyBorder.mjs";
 import { addSummationRow } from "./performSummation.mjs";
 import { performTransform } from "./performTransform.mjs";
-import { getFileNameAndPaths } from "./getFileNameAndPaths.mjs";
 import { BRANDS } from "./constants.mjs";
+import { markGrayCells } from "./markGrayCells.mjs";
+import { setupColumnsWithOffset } from "./setupColumnsWithOffset.mjs";
 
 // 1. HARDCODED MAPPING:
 // Key: The desired column name in the OUTPUT file.
@@ -96,11 +97,9 @@ const OUTPUT_COLUMNS_SPEC = [
 /**
  * Main function to read, process, and write the Excel file based on strict mapping.
  */
-const transformBajaj = async () => {
-  const filePaths = await getFileNameAndPaths();
-
+export const transformBajaj = async (fileInfo) => {
   const processedData = await performTransform(
-    filePaths.inputPath,
+    fileInfo.inputPath,
     COLUMN_MAPPING,
     BRANDS.BAJAJ
   );
@@ -109,8 +108,7 @@ const transformBajaj = async () => {
   const outputWorkbook = new ExcelJS.Workbook();
   const outputWorksheet = outputWorkbook.addWorksheet("Filtered Report");
 
-  // Set the columns using the strict specification (order and width are enforced here)
-  outputWorksheet.columns = OUTPUT_COLUMNS_SPEC;
+  setupColumnsWithOffset(outputWorksheet, OUTPUT_COLUMNS_SPEC, 4);
 
   const sortedProcessedData = sortAlphabetically(
     processedData,
@@ -134,15 +132,14 @@ const transformBajaj = async () => {
 
   applyBorder(outputWorksheet);
 
+  markGrayCells(outputWorksheet, 2);
+
   try {
-    await outputWorkbook.xlsx.writeFile(filePaths.outputPath);
+    await outputWorkbook.xlsx.writeFile(fileInfo.outputPath);
     console.log(
-      `\nSuccess! The new Excel file (Strictly Mapped) has been saved to: ${filePaths.outputPath}`
+      `\nSuccess! The new Excel file (Strictly Mapped) has been saved to: ${fileInfo.outputPath}`
     );
   } catch (error) {
     console.error("Error writing the XLSX file:", error);
   }
 };
-
-// Execute the main function
-transformBajaj();

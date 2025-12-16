@@ -4,8 +4,7 @@
   "description": "Script to reorder and format specific columns from a CSV file into a new XLSX file.",
   "main": "process_excel.js",
   "scripts": {
-    "bajaj": "node src/transformBajaj.mjs",
-    "godigit": "node src/transformGodigit.mjs"
+    "batchall":"node src/batchProcessFiles.mjs"
   },
   "dependencies": {
     "exceljs": "^4.4.0"

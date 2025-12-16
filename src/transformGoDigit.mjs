@@ -3,7 +3,6 @@ import { sortByDate } from "./sortUtils.mjs";
 import { applyBorder } from "./applyBorder.mjs";
 import { addSummationRow } from "./performSummation.mjs";
 import { performTransform } from "./performTransform.mjs";
-import { getFileNameAndPaths } from "./getFileNameAndPaths.mjs";
 import { BRANDS } from "./constants.mjs";
 
 // 1. HARDCODED MAPPING:
@@ -106,11 +105,9 @@ const OUTPUT_COLUMNS_SPEC = [
 /**
  * Main function to read, process, and write the Excel file based on strict mapping.
  */
-const transformGoDigit = async () => {
-  const filePaths = await getFileNameAndPaths();
-
+export const transformGoDigit = async (fileInfo) => {
   const processedData = await performTransform(
-    filePaths.inputPath,
+    fileInfo.inputPath,
     COLUMN_MAPPING,
     BRANDS.GODIGIT
   );
@@ -145,14 +142,11 @@ const transformGoDigit = async () => {
   applyBorder(outputWorksheet);
 
   try {
-    await outputWorkbook.xlsx.writeFile(filePaths.outputPath);
+    await outputWorkbook.xlsx.writeFile(fileInfo.outputPath);
     console.log(
-      `\nSuccess! The new Excel file (Strictly Mapped) has been saved to: ${filePaths.outputPath}`
+      `\nSuccess! The new Excel file (Strictly Mapped) has been saved to: ${fileInfo.outputPath}`
     );
   } catch (error) {
     console.error("Error writing the XLSX file:", error);
   }
 };
-
-// Execute the main function
-transformGoDigit();

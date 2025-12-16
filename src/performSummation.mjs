@@ -46,7 +46,7 @@ export function addSummationRow(
 
     // Define the range for the SUM formula. Data starts from Row 2.
     const range = `${colLetter}2:${colLetter}${lastDataRowNumber}`;
-    const cellAddress = `${colLetter}${summaryRowNumber}`;
+    // const cellAddress = `${colLetter}${summaryRowNumber}`;
 
     // Apply the formula to the summary cell
     const cell = summaryRow.getCell(colIndex);
