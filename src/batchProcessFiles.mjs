@@ -1,6 +1,6 @@
+import { buildBajaj } from "./builders/buildBajaj.mjs";
+import { buildGoDigit } from "./builders/buildGoDigit.mjs";
 import { getMultipleInputFiles } from "./getMultipleInputFiles.mjs";
-import { transformBajaj } from "./transformBajaj.mjs";
-import { transformGoDigit } from "./transformGoDigit.mjs";
 
 export const batchProcessFiles = async () => {
   const filesToProcess = await getMultipleInputFiles();
@@ -19,16 +19,16 @@ export const batchProcessFiles = async () => {
     // 6. Use a SWITCH statement with true for conditional execution
     switch (true) {
       case lowerCaseName.includes("bajaj"): {
-        console.log("Transforming -", lowerCaseName);
+        console.log("building -", lowerCaseName);
 
-        await transformBajaj(fileInfo);
+        await buildBajaj(fileInfo);
         break;
       }
 
       case lowerCaseName.includes("godigit"): {
-        console.log("Transforming -", lowerCaseName);
+        console.log("building -", lowerCaseName);
 
-        await transformGoDigit(fileInfo);
+        await buildGoDigit(fileInfo);
         break;
       }
 

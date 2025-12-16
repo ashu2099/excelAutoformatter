@@ -8,7 +8,10 @@ export default defineConfig([
     languageOptions: { globals: globals.node },
     rules: {
       ...js.configs.recommended.rules,
-      "no-unused-vars": ["error", { varsIgnorePattern: "^[A-Z_]" }],
+      "no-unused-vars": [
+        "error",
+        { varsIgnorePattern: "^_", argsIgnorePattern: "^_" },
+      ],
     },
   },
 ]);

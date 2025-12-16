@@ -1,4 +1,4 @@
-import { BRANDS } from "./constants.mjs";
+import { BRANDS } from "../constants.mjs";
 
 export const getEndingRow = (rowCount, brand) => {
   switch (brand) {
