@@ -10,6 +10,10 @@ export const getEndingRow = (rowCount, brand) => {
       return rowCount;
     }
 
+    case BRANDS.SRIRAM: {
+      return rowCount - 2;
+    }
+
     default: {
       break;
     }
