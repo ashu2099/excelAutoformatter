@@ -54,6 +54,7 @@ export const buildGoDigit = async (fileInfo) => {
     console.log(
       `\nSuccess! The new Excel file has been saved to: ${fileInfo.outputPath}`
     );
+    console.log("------------------------------------------");
   } catch (error) {
     console.error("Error writing the XLSX file:", error);
   }

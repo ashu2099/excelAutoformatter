@@ -59,6 +59,7 @@ export const buildBajaj = async (fileInfo) => {
     console.log(
       `\nSuccess! The new Excel file (Strictly Mapped) has been saved to: ${fileInfo.outputPath}`
     );
+    console.log("------------------------------------------");
   } catch (error) {
     console.error("Error writing the XLSX file:", error);
   }

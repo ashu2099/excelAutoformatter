@@ -3,7 +3,7 @@
 // Value: The EXACT column name found in the INPUT file (from INPUT_COLUMNS).
 // If the input column name changes in the future, only the Value needs updating here.
 
-const MonthFrag = "Sep25";
+const _MonthFrag = "Sep25";
 
 export const GODIGIT_COLUMN_MAPPING = {
   // Basic Policy/ID Fields

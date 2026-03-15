@@ -81,7 +81,6 @@ export const performTransform = async (
   }
 
   console.log(`\nSuccessfully processed ${processedData.length} data rows.`);
-  console.log("------------------------------------------");
 
   return processedData;
 };

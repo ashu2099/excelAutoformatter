@@ -11,7 +11,7 @@ export const getEndingRow = (rowCount, brand) => {
     }
 
     case BRANDS.SRIRAM: {
-      return rowCount - 2;
+      return rowCount;
     }
 
     case BRANDS.MAGMA: {
