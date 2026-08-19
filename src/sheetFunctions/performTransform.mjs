@@ -1,5 +1,5 @@
 import fs from "fs";
-import ExcelJS from "exceljs";
+import XLSX from "xlsx";
 import { getEndingRow } from "./getEndingRow.mjs";
 
 export const performTransform = async (
@@ -15,38 +15,47 @@ export const performTransform = async (
     return;
   }
 
-  const workbook = new ExcelJS.Workbook();
   let worksheet;
 
   try {
-    await workbook.xlsx.readFile(INPUT_FILE_PATH);
+    const workbook = XLSX.readFile(INPUT_FILE_PATH, { cellDates: true });
+    worksheet = workbook.Sheets[workbook.SheetNames[0]];
 
-    worksheet = workbook.worksheets[0];
+    if (!worksheet) {
+      throw new Error("The workbook does not contain a worksheet.");
+    }
   } catch (error) {
-    console.error("Error reading .xlsx file", error);
+    console.error("Error reading Excel file", error);
     return;
   }
 
-  // Get the actual headers and create a quick lookup map (Header -> Column Index)
-  // ExcelJS row.values is 1-indexed. We adjust to be 0-indexed for simplicity later.
-  const actualHeaders = worksheet.getRow(1).values.filter((v) => v);
+  // Convert the first sheet to rows. SheetJS supports XLSX, XLS and XLSB inputs.
+  const rows = XLSX.utils.sheet_to_json(worksheet, {
+    header: 1,
+    raw: true,
+    defval: "",
+    blankrows: false,
+  });
+
+  // Get the actual headers and create a quick lookup map (Header -> Column Index).
+  const actualHeaders = rows[0] ?? [];
 
   const headerToIndexMap = {};
   actualHeaders.forEach((header, index) => {
-    // Store the index of the column data (+1 because ExcelJS arrays are 1-indexed)
-    headerToIndexMap[header] = index + 1;
+    if (header) {
+      headerToIndexMap[header] = index;
+    }
   });
 
   // 3. Process data into an array of objects
   const processedData = [];
   let srNoCounter = 1;
 
-  const endingRow = getEndingRow(worksheet.rowCount, COMPANY);
+  const endingRow = getEndingRow(rows.length, COMPANY);
 
-  // Start reading from the second row (data rows)
-  for (let i = 2; i <= endingRow; i++) {
-    const row = worksheet.getRow(i);
-    const originalRowValues = row.values;
+  // Start reading from the second row (data rows). SheetJS arrays are 0-indexed.
+  for (let rowIndex = 1; rowIndex < endingRow; rowIndex++) {
+    const originalRowValues = rows[rowIndex] ?? [];
 
     const newRow = {};
 
@@ -60,12 +69,7 @@ export const performTransform = async (
 
       let value = "";
       if (columnIndex !== undefined) {
-        // Get value using the 1-indexed column index
-
-        value =
-          originalRowValues[columnIndex] === null
-            ? ""
-            : originalRowValues[columnIndex];
+        value = originalRowValues[columnIndex] ?? "";
       } else {
         // This warning indicates a configuration error in COLUMN_MAPPING
         console.warn(

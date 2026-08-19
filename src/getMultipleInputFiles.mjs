@@ -14,7 +14,11 @@ export const getMultipleInputFiles = async () => {
     const result = files.map((filename) => ({
       fileName: filename,
       inputPath: path.join(INPUT_DIR, filename),
-      outputPath: path.join(OUTPUT_DIR, `autoFormatted-${filename}`),
+      // ExcelJS always writes XLSX content, regardless of the source format.
+      outputPath: path.join(
+        OUTPUT_DIR,
+        `autoFormatted-${path.parse(filename).name}.xlsx`
+      ),
     }));
 
     return result;
