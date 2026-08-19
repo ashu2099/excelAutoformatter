@@ -7,6 +7,7 @@ import {
 
 import { BRANDS } from "../constants.mjs";
 import { sortAlphabetically } from "../utils/sortUtils.mjs";
+import { transformBajajHtmlTable } from "../utils/transformBajajHtmlTable.mjs";
 
 import { performTransform } from "../sheetFunctions/performTransform.mjs";
 import { addSummationRow } from "../sheetFunctions/addSummationRow.mjs";
@@ -18,11 +19,15 @@ import { setupColumnsWithOffset } from "../sheetFunctions/setupColumnsWithOffset
  * Main function to read, process, and write the Excel file based on strict mapping.
  */
 export const buildBajaj = async (fileInfo) => {
-  const processedData = await performTransform(
+  const htmlProcessedData = await transformBajajHtmlTable(
+    fileInfo.inputPath,
+    BAJAJ_COLUMN_MAPPING
+  );
+  const processedData = htmlProcessedData ?? (await performTransform(
     fileInfo.inputPath,
     BAJAJ_COLUMN_MAPPING,
     BRANDS.BAJAJ
-  );
+  ));
 
   // 4. Create and Write the new XLSX file
   const outputWorkbook = new ExcelJS.Workbook();

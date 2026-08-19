@@ -1,6 +1,6 @@
 /**
  * Adds a row to an exceljs worksheet containing the SUM formula for specified columns.
- * Assumes column headers are in Row 1 and data starts in Row 2.
+ * Assumes column headers are in Row 4 and data starts in Row 5.
  *
  * @param {object} worksheet - The exceljs Worksheet object.
  * @param {string[]} sumColumnNames - An array of column header names (keys) to sum.
@@ -44,8 +44,8 @@ export function addSummationRow(
     const colLetter = column.letter;
     const colIndex = column.number;
 
-    // Define the range for the SUM formula. Data starts from Row 2.
-    const range = `${colLetter}2:${colLetter}${lastDataRowNumber}`;
+    // Define the range for the SUM formula. Data starts from Row 5.
+    const range = `${colLetter}5:${colLetter}${lastDataRowNumber}`;
     // const cellAddress = `${colLetter}${summaryRowNumber}`;
 
     // Apply the formula to the summary cell
